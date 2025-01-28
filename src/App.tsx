@@ -32,6 +32,7 @@ function App() {
           <Skeleton className="h-4 w-[200px]" />
         </div>
       </div>
+      <p>VITE_APP_ENV {import.meta.env.VITE_APP_ENV}</p>
     </div>
   );
 }
