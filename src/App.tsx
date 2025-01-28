@@ -13,9 +13,10 @@ function App() {
     return <Button onClick={increasePopulation}>one up</Button>;
   }
   return (
-    <div>
+    <div className="p-4">
       <BearCounter />
       <Controls />
+      <p>Novo...</p>
       <div className="flex items-center space-x-4 mt-5">
         <Skeleton className="h-12 w-12 rounded-full" />
         <div className="space-y-2">
