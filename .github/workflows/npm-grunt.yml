@@ -2,9 +2,12 @@ name: NodeJS with Grunt
 
 on:
   push:
-    branches: ["master", "dev"]
+    branches:
+      - master # Quando houver push na branch master, será para produção
+      - dev # Quando houver push na branch dev, será para desenvolvimento
   pull_request:
-    branches: ["master"]
+    branches:
+      - master # Quando houver pull request para a branch master, será para produção
 
 jobs:
   build:
@@ -22,7 +25,31 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Build
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Grunt build
+        run: grunt
+
+      - name: Set environment variable for deployment
+        run: echo "ENVIRONMENT=${{ github.ref }}" >> $GITHUB_ENV # Adiciona uma variável de ambiente para distinguir produção e dev
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to Vercel (Production or Dev)
         run: |
-          npm install
-          grunt
+          if [[ "${{ github.ref }}" == "refs/heads/master" ]]; then
+            echo "Deploying to production..."
+            vercel --prod  # Deploy para produção
+          elif [[ "${{ github.ref }}" == "refs/heads/dev" ]]; then
+            echo "Deploying to development..."
+            vercel --env dev  # Deploy para desenvolvimento
+          fi
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
