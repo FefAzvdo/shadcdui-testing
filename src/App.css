@@ -1,0 +1,33 @@
+/* App.css */
+
+/* Estilo do modo claro */
+.light {
+  background-color: #ffffff;
+  color: #333333;
+}
+
+/* Estilo do modo escuro */
+.dark {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+/* Estilos do cabeçalho e botão */
+header {
+  padding: 20px;
+  text-align: center;
+}
+
+button {
+  padding: 10px 20px;
+  margin-top: 20px;
+  cursor: pointer;
+  background-color: #008cba;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #005f73;
+}
